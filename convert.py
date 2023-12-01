@@ -1,4 +1,11 @@
 from PIL import Image, ImageDraw
+import time
+
+timeStart = time.time()
+
+# Invert the image (0=False, 1=True)
+inverted = 0
+
 
 def create_pixel_art():
     # Set the width and height of each cell
@@ -43,7 +50,7 @@ def create_pixel_art():
     for y in range(0,len(canvasLines)):
         for x in range(0,len(canvasLines[0])):
             # print(f"if canvasLines[{y}][{x}] == 1")
-            if canvasLines[y][x] == 0:
+            if canvasLines[y][x] == inverted:
                 draw.point((x,y), black)
             else:
                 draw.point((x,y), white)
@@ -52,9 +59,6 @@ def create_pixel_art():
 
 
 lines = []  # Initialize an empty array to store lines
-
-# Replace 'your_file.txt' with the path to your text file
-file_path = 'your_file.txt'
 
 # Open the file in read mode
 with open('ascii.txt', 'r', encoding='utf-8') as file:
@@ -324,3 +328,7 @@ colorMatrices = {
     };
 
 create_pixel_art()
+timeEnd = time.time()
+
+elapsedTime = timeEnd - timeStart
+print(str(elapsedTime) + " s")
