@@ -6,6 +6,11 @@ timeStart = time.time()
 # Invert the image (0=False, 1=True)
 inverted = 0
 
+# Name of the ASCII file
+filename = 'test.txt'
+
+# Name of the output img
+output = "image.txt"
 
 def create_pixel_art():
     # Set the width and height of each cell
@@ -39,36 +44,42 @@ def create_pixel_art():
                 # If an ascii character
                 # print(f"canvasLines[{lineNo}+{x}].extend(colorMatrices[{ascii}{x}])")
                 canvasLines[lineNo + x].extend(colorMatrices[ascii][x])
-
-        lineNo += 4;
-    
-
-    # for lineNo, lineContent in canvasLines.items():
-    #     print(f"Line {lineNo}: {lineContent}")
+        lineNo += 4
 
     # Print the image from the dict
     for y in range(0,len(canvasLines)):
         for x in range(0,len(canvasLines[0])):
-            # print(f"if canvasLines[{y}][{x}] == 1")
+            # If inverted, make the points black, else white
+            # print(canvasLines[y])
+            print(f"if canvasLines[{y}][{x}] == inverted")
             if canvasLines[y][x] == inverted:
                 draw.point((x,y), black)
             else:
                 draw.point((x,y), white)
     # Save the image as a JPEG file
-    image.save("pixel_art.jpg")
-
+    image.save(output)
 
 lines = []  # Initialize an empty array to store lines
 
-# Open the file in read mode
-with open('ascii.txt', 'r', encoding='utf-8') as file:
+# Find the length of the longest line
+with open(filename, 'r', encoding='utf-8') as file:
+    lines = file.readlines()
+    max_len = len(max(lines, key=len))
+    print(max_len)
+    lines = []
+    file.close()
+
+# Open the file in read mode to collect data
+with open('test.txt', 'r', encoding='utf-8') as file:
     # Read each line and add it to the 'lines' array
     for line in file:
-        lines.append(line.strip())  # Remove leading and trailing whitespaces
-
-
+        paddedLine = line.ljust(max_len-1)
+        print(paddedLine.replace('\n',''))
+        lines.append(line.replace('\n',''))  # Remove leading and trailing whitespaces
 
 colorMatrices = {
+    # Braille Characters
+    '⠀': [ [0, 0], [0, 0], [0, 0], [0, 0]],
     ' ': [ [0, 0], [0, 0], [0, 0], [0, 0]], 
     '⠁': [ [1, 0], [0, 0], [0, 0], [0, 0]], 
     '⠂': [ [0, 0], [1, 0], [0, 0], [0, 0]], 
@@ -325,10 +336,10 @@ colorMatrices = {
     '⣽': [ [1, 1], [0, 1], [1, 1], [1, 1]],
     '⣾': [ [0, 1], [1, 1], [1, 1], [1, 1]],
     '⣿': [ [1, 1], [1, 1], [1, 1], [1, 1]],
-    };
+    }
 
 create_pixel_art()
 timeEnd = time.time()
 
 elapsedTime = timeEnd - timeStart
-print(str(elapsedTime) + " s")
+print("Time elapsed: " + str(elapsedTime) + " s")
