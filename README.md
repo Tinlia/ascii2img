@@ -2,7 +2,7 @@
 A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White Pixel art
 
 
-![Pixel Art](image.jpg) 
+![Pixel Art](pixel_art.jpg) 
 
 ## Overview
 
