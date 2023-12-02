@@ -6,7 +6,9 @@ A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White 
 
 ## Overview
 
-`ascii2img` is a simple Python program that converts ASCII art into pixel art images. The program takes input from a text file (`ascii.txt`) containing ASCII art and generates an output image (`pixel_art.jpg`). The conversion is done by mapping ASCII characters to pixel matrices. This program currently supports 6-8 Bit Braille characters, shades, spaces, periods, and commas.
+`ascii2img` is a simple Python program that converts ASCII art into pixel art images. The program takes input from a text file (`ascii.txt`) containing ASCII art and generates an output image (`pixel_art.jpg`). The conversion is done by mapping ASCII characters to pixel matrices. 
+
+This program currently supports 6-8 Bit Braille characters, shades, spaces, periods, and commas.
 
 ## Installation
 
