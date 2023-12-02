@@ -2,16 +2,16 @@ from PIL import Image, ImageDraw
 import time
 
 # Invert the image
-inverted = False
+inverted = True
 
 # Remove spacing character (⠄, . , ⢀)
 removeSpacing = True
 
 # Name of the ASCII file
-filename = 'ascii.txt'
+filename = 'ascii3.txt'
 
 # Name of the output img
-output = "pixel_art.jpg"
+output = "pixel_art3.png"
 
 timeStart = time.time()
 
@@ -71,7 +71,7 @@ def create_pixel_art():
                     draw.point((x,y), lightGrey)
                 else:
                     draw.point((x,y), black)
-    # Save the image as a JPEG file
+    # Save the image as a PNG file
     image.save(f'./images/{output}')
 
 lines = []  # Initialize an empty array to store lines
@@ -94,6 +94,7 @@ colorMatrices = {
     # Block Characters
     '█': [ [0, 0], [0, 0], [0, 0], [0, 0]],
     '▓': [ [0, 0], [0, 0], [0, 0], [0, 0]], 
+    '■': [ [0, 0], [1, 1], [1, 1], [0, 0]],
     '▄': [ [1, 1], [1, 1], [0, 0], [0, 0]],
     '▀': [ [0, 0], [0, 0], [1, 1], [1, 1]],
     '▌': [ [0, 1], [0, 1], [0, 1], [0, 1]],
