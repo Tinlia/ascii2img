@@ -2,7 +2,7 @@
 A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White Pixel art
 
 
-![Pixel Art](/images/pixel_art.jpg) 
+![Pixel Art](/images/pixel_art.png) 
 
 ## Overview
 
@@ -33,7 +33,7 @@ This program currently supports 6-8 Bit Braille characters, shades, spaces, peri
 python convert.py
 ```
 
-3. Check the output image in pixel_art.jpg.
+3. Check the output image in pixel_art.png.
 
 4. Toggle removeSpacing to `True` to get rid of spacing in images
 <p align="center">
@@ -47,9 +47,9 @@ This program currently ignores any whitespace in the `ascii.txt` file, so it is 
 
 ## Examples
 Three examples are provided:  
- 1. [ascii.txt](/inputs/ascii.txt) --> [output](/images/pixel_art.jpg) (13,500 characters)
- 2. [ascii2.txt](/inputs/ascii2.txt) --> [output](/images/pixel_art2.jpg) (37,500 characters)
- 3. [ascii3.txt](/inputs/ascii3.txt) --> [output](/images/pixel_art3.jpg) (150,000 characters)
+ 1. [ascii.txt](/inputs/ascii.txt) --> [output](/images/pixel_art.png) (13,500 characters)
+ 2. [ascii2.txt](/inputs/ascii2.txt) --> [output](/images/pixel_art2.png) (37,500 characters)
+ 3. [ascii3.txt](/inputs/ascii3.txt) --> [output](/images/pixel_art3.png) (150,000 characters)
 
 ## Credits
 Braille ASCII art generated using [Lachlan's Braille ASCII Generator](https://lachlanarthur.github.io/Braille-ASCII-Art/)
