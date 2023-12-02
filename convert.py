@@ -1,16 +1,19 @@
 from PIL import Image, ImageDraw
 import time
 
-timeStart = time.time()
+# Invert the image
+inverted = False
 
-# Invert the image (0=False, 1=True)
-inverted = 0
+# Remove spacing character (⠄, . , ⢀)
+removeSpacing = True
 
 # Name of the ASCII file
-filename = 'test.txt'
+filename = 'ascii.txt'
 
 # Name of the output img
-output = "image.txt"
+output = "pixel_art.jpg"
+
+timeStart = time.time()
 
 def create_pixel_art():
     # Set the width and height of each cell
@@ -25,12 +28,14 @@ def create_pixel_art():
     image = Image.new("RGB", (image_width, image_height), "white")
     draw = ImageDraw.Draw(image)
 
-    # Define colors for key (black) and value (white)
+    # Define colors for pixels
     black = (0, 0, 0)  # Black
+    grey = (105,105,105) # Grey 
+    lightGrey = (192,192,192) # Light Grey
     white = (255, 255, 255)  # White
-
     canvasLines = {}
     lineNo = 0
+
     # Loop through data and format a dictionary for black/white pixels
     for line in lines:
         # Set the lines as empty lists
@@ -40,55 +45,74 @@ def create_pixel_art():
         # Fill in the lines numbers 4 at a time
         for ascii in line:
             for x in range(0,4):
-                
                 # If an ascii character
-                # print(f"canvasLines[{lineNo}+{x}].extend(colorMatrices[{ascii}{x}])")
                 canvasLines[lineNo + x].extend(colorMatrices[ascii][x])
         lineNo += 4
 
     # Print the image from the dict
     for y in range(0,len(canvasLines)):
-        for x in range(0,len(canvasLines[0])):
-            # If inverted, make the points black, else white
-            # print(canvasLines[y])
-            print(f"if canvasLines[{y}][{x}] == inverted")
-            if canvasLines[y][x] == inverted:
-                draw.point((x,y), black)
-            else:
-                draw.point((x,y), white)
+        for x in range(0,len(canvasLines[y])):
+            # If inverted, flip values
+            if inverted:
+                if canvasLines[y][x] == 0:
+                    draw.point((x,y), black)
+                elif canvasLines[y][x] == 3:
+                    draw.point((x,y), grey)
+                elif canvasLines[y][x] == 2:
+                    draw.point((x,y), lightGrey)
+                else:
+                    draw.point((x,y), white)
+            else: 
+                if canvasLines[y][x] == 0:
+                    draw.point((x,y), white)
+                elif canvasLines[y][x] == 2:
+                    draw.point((x,y), grey)
+                elif canvasLines[y][x] == 3:
+                    draw.point((x,y), lightGrey)
+                else:
+                    draw.point((x,y), black)
     # Save the image as a JPEG file
-    image.save(output)
+    image.save(f'./images/{output}')
 
 lines = []  # Initialize an empty array to store lines
 
 # Find the length of the longest line
-with open(filename, 'r', encoding='utf-8') as file:
-    lines = file.readlines()
-    max_len = len(max(lines, key=len))
-    print(max_len)
+with open(f'./inputs/{filename}', 'r', encoding='utf-8') as file:
+    lines = [line.replace('\n', '') for line in file.readlines()]
+    max_len = len(max(lines, key=len)) 
     lines = []
     file.close()
 
 # Open the file in read mode to collect data
-with open('test.txt', 'r', encoding='utf-8') as file:
+with open(f'./inputs/{filename}', 'r', encoding='utf-8') as file:
     # Read each line and add it to the 'lines' array
     for line in file:
-        paddedLine = line.ljust(max_len-1)
-        print(paddedLine.replace('\n',''))
-        lines.append(line.replace('\n',''))  # Remove leading and trailing whitespaces
+        paddedLine = line.rstrip().ljust(max_len, ' ')
+        lines.append(paddedLine.replace('\n',''))  # Remove leading and trailing whitespaces
 
 colorMatrices = {
+    # Block Characters
+    '█': [ [0, 0], [0, 0], [0, 0], [0, 0]],
+    '▓': [ [0, 0], [0, 0], [0, 0], [0, 0]], 
+    '▄': [ [1, 1], [1, 1], [0, 0], [0, 0]],
+    '▀': [ [0, 0], [0, 0], [1, 1], [1, 1]],
+    '▌': [ [0, 1], [0, 1], [0, 1], [0, 1]],
+    '▐': [ [1, 0], [1, 0], [1, 0], [1, 0]],
+    '▒': [ [3, 3], [3, 3], [3, 3], [3, 3]],
+    '░': [ [2, 2], [2, 2], [2, 2], [2, 2]],
+    
     # Braille Characters
     '⠀': [ [0, 0], [0, 0], [0, 0], [0, 0]],
     ' ': [ [0, 0], [0, 0], [0, 0], [0, 0]], 
     '⠁': [ [1, 0], [0, 0], [0, 0], [0, 0]], 
     '⠂': [ [0, 0], [1, 0], [0, 0], [0, 0]], 
     '⠃': [ [1, 0], [1, 0], [0, 0], [0, 0]], 
-    '⠄': [ [0, 0], [0, 0], [1, 0], [0, 0]], 
+    '⠄': [ [0, 0], [0, 0], [0, 0], [1, 0]], # Remove Spacing
     '⠅': [ [1, 0], [0, 0], [1, 0], [0, 0]], 
     '⠆': [ [0, 0], [1, 0], [1, 0], [0, 0]], 
     '⠇': [ [1, 0], [1, 0], [1, 0], [0, 0]], 
     '⡀': [ [0, 0], [0, 0], [0, 0], [1, 0]], 
+    '.': [ [0, 0], [0, 0], [0, 0], [1, 0]], # Remove Spacing
     '⡁': [ [1, 0], [0, 0], [0, 0], [1, 0]], 
     '⡂': [ [0, 0], [1, 0], [0, 0], [1, 0]], 
     '⡃': [ [1, 0], [1, 0], [0, 0], [1, 0]], 
@@ -208,7 +232,7 @@ colorMatrices = {
     '⡽': [ [1, 1], [0, 1], [1, 1], [1, 0]],
     '⡾': [ [0, 1], [1, 1], [1, 1], [1, 0]],
     '⡿': [ [1, 1], [1, 1], [1, 1], [1, 0]],
-    '⢀': [ [0, 0], [0, 0], [0, 0], [0, 1]],
+    '⢀': [ [0, 0], [0, 0], [0, 0], [0, 1]], # Remove Spacing
     '⢁': [ [1, 0], [0, 0], [0, 0], [0, 1]],
     '⢂': [ [0, 0], [1, 0], [0, 0], [0, 1]],
     '⢃': [ [1, 0], [1, 0], [0, 0], [0, 1]],
@@ -338,8 +362,13 @@ colorMatrices = {
     '⣿': [ [1, 1], [1, 1], [1, 1], [1, 1]],
     }
 
+if removeSpacing:
+    colorMatrices['⠄']= [ [0, 0], [0, 0], [0, 0], [0, 0]]
+    colorMatrices['⢀']= [ [0, 0], [0, 0], [0, 0], [0, 0]]
+    colorMatrices['.']= [ [0, 0], [0, 0], [0, 0], [0, 0]]
+    
 create_pixel_art()
 timeEnd = time.time()
 
 elapsedTime = timeEnd - timeStart
-print("Time elapsed: " + str(elapsedTime) + " s")
+print("\nTime elapsed: " + str(elapsedTime) + " s\n")
