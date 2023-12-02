@@ -6,7 +6,7 @@ A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White 
 
 ## Overview
 
-`ascii2img` is a simple Python program that converts ASCII art into pixel art images. The program takes input from a text file (`ascii.txt`) containing ASCII art and generates an output image (`pixel_art.jpg`). The conversion is done by mapping ASCII characters to pixel matrices.
+`ascii2img` is a simple Python program that converts ASCII art into pixel art images. The program takes input from a text file (`ascii.txt`) containing ASCII art and generates an output image (`pixel_art.jpg`). The conversion is done by mapping ASCII characters to pixel matrices. This program currently supports 6-8 Bit Braille characters, shades, spaces, periods, and commas.
 
 ## Installation
 
@@ -38,8 +38,11 @@ The program maps ASCII characters to pixel matrices in the `colorMatrices` dicti
 
 This program currently ignores any whitespace in the `ascii.txt` file, so it is suggested that every whitespace be replaced by the character `⠈`. This will be patched next
 
-## Efficiency
-Efficiency for the three different examples [ascii.txt](./ascii.txt) (13,500 characters), [ascii2.txt](./ascii2.txt) (37,500 characters), and [ascii3.txt](./ascii3.txt) (150,000 characters) can be found in [the version efficiencies](./versionefficiencies.txt)
+## Examples
+Three examples are provided:  
+ 1. [ascii.txt](/inputs/ascii.txt) --> [output](/images/pixel_art.jpg) (13,500 characters)
+ 2. [ascii2.txt](/inputs/ascii2.txt) --> [output](/images/pixel_art2.jpg) (37,500 characters)
+ 3. [ascii3.txt](/inputs/ascii3.txt) --> [output](/images/pixel_art3.jpg) (150,000 characters)
 
 ## Credits
 Braille ASCII art generated using [Lachlan's Braille ASCII Generator](https://lachlanarthur.github.io/Braille-ASCII-Art/)
