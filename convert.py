@@ -1,17 +1,32 @@
 from PIL import Image, ImageDraw
 import time
+import math
 
-# Invert the image
-inverted = True
+# Invert the image rgb
+inverted = False
 
 # Remove spacing character (⠄, . , ⢀)
 removeSpacing = True
 
+# Improve Shading (Not recommended for below 50x50)
+shadingEnabled = True
+
+# Advanced Shading (Not recommended for below 250x250)
+advancedShadingEnabled = True
+
 # Name of the ASCII file
-filename = 'ascii3.txt'
+filename = 'ascii2.txt'
 
 # Name of the output img
-output = "pixel_art3.png"
+output = "pixel_art2.png"
+
+colours = {
+    4 : (0, 0, 0),        # Black
+    3 : (27, 27, 27),     # Dark Grey
+    2 : (105, 105, 105),  # Grey
+    1 : (192, 192, 192),  # Light Grey
+    0 : (255, 255, 255)   # White     
+}    
 
 timeStart = time.time()
 
@@ -25,14 +40,9 @@ def create_pixel_art():
     image_height = cell_height * len(lines)
 
     # Create a new image with a white background
-    image = Image.new("RGB", (image_width, image_height), "white")
+    image = Image.new("RGB", (image_width, image_height), "black")
     draw = ImageDraw.Draw(image)
 
-    # Define colors for pixels
-    black = (0, 0, 0)  # Black
-    grey = (105,105,105) # Grey 
-    lightGrey = (192,192,192) # Light Grey
-    white = (255, 255, 255)  # White
     canvasLines = {}
     lineNo = 0
 
@@ -49,30 +59,46 @@ def create_pixel_art():
                 canvasLines[lineNo + x].extend(colorMatrices[ascii][x])
         lineNo += 4
 
-    # Print the image from the dict
-    for y in range(0,len(canvasLines)):
-        for x in range(0,len(canvasLines[y])):
-            # If inverted, flip values
-            if inverted:
-                if canvasLines[y][x] == 0:
-                    draw.point((x,y), black)
-                elif canvasLines[y][x] == 3:
-                    draw.point((x,y), grey)
-                elif canvasLines[y][x] == 2:
-                    draw.point((x,y), lightGrey)
+    # Print the image from the canvasLines dict
+    for y in range(1, len(canvasLines)-1):
+        for x in range(1, len(canvasLines[y])-1):
+            if advancedShadingEnabled:
+                s = 0
+                # Check surrounding 8 pixels
+                for r in range(-1,2):
+                    for c in range(-1,2):
+                        # If not the center pixel
+                        if r != 0 or c != 0:
+                            if inverted:
+                                s += 1 if canvasLines[y+r][x+c] == 0 else 0
+                            else:
+                                s += canvasLines[y+r][x+c]
+                                
+                # Adjust rgb based on surrounding pixels
+                rgb = math.floor(((-255/8)*s)+255) if inverted else math.floor((255/8)*s)
+                draw.point((x,y), (rgb, rgb, rgb))
+                
+            # If shaded and not a border pixel
+            elif shadingEnabled and len(canvasLines) > y > 0 and len(canvasLines[y]) > x > 0:
+                s = 0
+                # Check adjacent pixels 
+                if canvasLines[y+1][x] == 1: s += 1
+                if canvasLines[y][x+1] == 1: s += 1
+                if canvasLines[y-1][x] == 1: s += 1
+                if canvasLines[y][x-1] == 1: s += 1
+
+                draw.point((x,y), colours[s] if inverted else colours[4-s])
+            elif shadingEnabled or advancedShadingEnabled:
+                # If an edge
+                draw.point((x,y), (255, 255, 255) if inverted else (0, 0, 0))
+            else:
+                if inverted:
+                    draw.point((x,y), (255, 255, 255) if canvasLines[y][x]==0 else (0, 0, 0))
                 else:
-                    draw.point((x,y), white)
-            else: 
-                if canvasLines[y][x] == 0:
-                    draw.point((x,y), white)
-                elif canvasLines[y][x] == 2:
-                    draw.point((x,y), grey)
-                elif canvasLines[y][x] == 3:
-                    draw.point((x,y), lightGrey)
-                else:
-                    draw.point((x,y), black)
-    # Save the image as a PNG file
-    image.save(f'./images/{output}')
+                    draw.point((x,y), (255, 255, 255) if canvasLines[y][x]==1 else (0, 0, 0))
+
+
+    image.save(f'./images/{output}') # Save the image as a PNG file
 
 lines = []  # Initialize an empty array to store lines
 
@@ -362,6 +388,7 @@ colorMatrices = {
     '⣾': [ [0, 1], [1, 1], [1, 1], [1, 1]],
     '⣿': [ [1, 1], [1, 1], [1, 1], [1, 1]],
     }
+
 
 if removeSpacing:
     colorMatrices['⠄']= [ [0, 0], [0, 0], [0, 0], [0, 0]]
