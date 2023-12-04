@@ -39,7 +39,7 @@ def create_pixel_art():
     image_width = cell_width * len(lines[0])
     image_height = cell_height * len(lines)
 
-    # Create a new image with a white background
+    # Create a new image with a black background
     image = Image.new("RGB", (image_width, image_height), "black")
     draw = ImageDraw.Draw(image)
 
@@ -52,7 +52,7 @@ def create_pixel_art():
         for x in range(0,4):
             canvasLines[lineNo + x] = []
 
-        # Fill in the lines numbers 4 at a time
+        # Fill in the lines numbers four at a time
         for ascii in line:
             for x in range(0,4):
                 # If an ascii character
