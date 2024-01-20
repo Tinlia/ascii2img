@@ -1,4 +1,4 @@
-# ascii2img v0.2
+# ascii2img v0.3
 A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White Pixel art
 
 
@@ -39,6 +39,8 @@ python convert.py
 <p align="center">
   <img src="https://cdn.discordapp.com/attachments/766387914136485948/1180631571666059344/spaceTrue.jpg?ex=657e1fd5&is=656baad5&hm=460c59181f56e3bd88a2842d5bd0f905a7ab9ce10a20b95ed0c8d9eaa4f1341a&"  width=100px/> <img src="https://cdn.discordapp.com/attachments/766387914136485948/1180631571905126470/spaceFalse.jpg?ex=657e1fd5&is=656baad5&hm=7c6f833f3e5b48c90403bf1886989e23152a7b4843e34fadf89315f391689db9&" width=100px/>
 </p>
+
+5. Set your desired shading using `shading = True/False` and `advancedShading = True/False`
 
 ## ASCII Mapping
 The program maps ASCII characters to pixel matrices in the `colorMatrices` dictionary. You can customize this dictionary to add more characters or modify existing mappings.
