@@ -1,5 +1,5 @@
 # ascii2img v0.3
-A small Python program to convert 6- and 8-bit braille ASCII Art to Black/White Pixel art
+Convert 6- and 8-bit braille ASCII Art to Black/White Pixel art
 
 
 ![Pixel Art](/images/pixel_art.png) 
