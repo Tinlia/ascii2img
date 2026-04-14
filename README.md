@@ -36,9 +36,6 @@ python convert.py
 3. Check the output image in pixel_art.png.
 
 4. Toggle removeSpacing to `True` to get rid of spacing in images
-<p align="center">
-  <img src="https://cdn.discordapp.com/attachments/766387914136485948/1180631571666059344/spaceTrue.jpg?ex=657e1fd5&is=656baad5&hm=460c59181f56e3bd88a2842d5bd0f905a7ab9ce10a20b95ed0c8d9eaa4f1341a&"  width=100px/> <img src="https://cdn.discordapp.com/attachments/766387914136485948/1180631571905126470/spaceFalse.jpg?ex=657e1fd5&is=656baad5&hm=7c6f833f3e5b48c90403bf1886989e23152a7b4843e34fadf89315f391689db9&" width=100px/>
-</p>
 
 5. Set your desired shading using `shading = True/False` and `advancedShading = True/False`
 
